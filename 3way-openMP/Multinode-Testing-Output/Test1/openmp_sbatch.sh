@@ -4,4 +4,4 @@
 
 module load OpenMPI
 
-mpirun mpirun /homes/cody598/cis520/Project4/3way-openMP/openMP #change to match the path to your code
+mpirun /homes/cody598/cis520/Project4/3way-openMP/openMP #change to match the path to your code

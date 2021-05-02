@@ -1,0 +1,36 @@
+
+The following have been reloaded with a version change:
+  1) GCCcore/9.3.0 => GCCcore/10.2.0
+  2) OpenMPI/4.0.3-GCC-9.3.0 => OpenMPI/4.0.5-iccifort-2020.4.304
+  3) UCX/1.8.0-GCCcore-9.3.0 => UCX/1.9.0-GCCcore-10.2.0
+  4) XZ/5.2.5-GCCcore-9.3.0 => XZ/5.2.5-GCCcore-10.2.0
+  5) binutils/2.34-GCCcore-9.3.0 => binutils/2.35-GCCcore-10.2.0
+  6) hwloc/2.2.0-GCCcore-9.3.0 => hwloc/2.2.0-GCCcore-10.2.0
+  7) libpciaccess/0.16-GCCcore-9.3.0 => libpciaccess/0.16-GCCcore-10.2.0
+  8) libxml2/2.9.10-GCCcore-9.3.0 => libxml2/2.9.10-GCCcore-10.2.0
+  9) numactl/2.0.13-GCCcore-9.3.0 => numactl/2.0.13-GCCcore-10.2.0
+ 10) zlib/1.2.11-GCCcore-9.3.0 => zlib/1.2.11-GCCcore-10.2.0
+
+--------------------------------------------------------------------------
+Open MPI tried to fork a new process via the "execve" system call but
+failed.  Open MPI checks many things before attempting to launch a
+child process, but nothing is perfect. This error may be indicative
+of another problem on the target host, or even something as silly as
+having specified a directory for your application. Your job will now
+abort.
+
+  Local host:        elf15
+  Working dir:       /homes/cody598/cis520/Project4/3way-openMP/Multinode-Testing-Output/Test1
+  Application name:  /homes/cody598/cis520/Project4/3way-openMP/openMP
+  Error:             Exec format error
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun was unable to start the specified application as it encountered an
+error:
+
+Error code: -125
+Error name: The specified application failed to start
+Node: elf15
+
+when attempting to start process rank 0.
+--------------------------------------------------------------------------

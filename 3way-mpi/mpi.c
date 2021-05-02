@@ -180,10 +180,6 @@ main(int argc, char *argv[])
  
 	NUM_THREADS = numtasks;
 
-	/* Important Data Retreival and Setup. */	
-	GetProcessMemory(&myMem);
-	printf("size = %d rank = %d, Node: %s, vMem %u KB, pMem %u KB\n", numtasks, rank, getenv("HOSTNAME"), myMem.virtualMem, myMem.physicalMem);
-
 	/* Get file. */
 	fd = fopen("/homes/dan/625/wiki_dump.txt","r");
 	if(fd == NULL)
@@ -207,8 +203,13 @@ main(int argc, char *argv[])
 		overalltime = (t2.tv_sec - t1.tv_sec) * 1000.0; //convert to milliseconds
 		overalltime += (t2.tv_usec - t1.tv_usec) / 1000.0; // convert to milliseconds
 		printf("Tasks: %s, Elapsed Time: %fms\n",  getenv("SLURM_NTASKS"),  overalltime);
+		/* Important Data Retreival and Setup. */	
+		GetProcessMemory(&myMem);
+		printf("size = %d rank = %d, Node: %s, vMem %u KB, pMem %u KB\n", numtasks, rank, getenv("HOSTNAME"), myMem.virtualMem, myMem.physicalMem);
 	}
 
 	MPI_Finalize();
+	printf("Main: program completed. Exiting.\n");
+	
 	return 0;
 }
