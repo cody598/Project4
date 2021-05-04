@@ -1,7 +1,11 @@
 #!/bin/bash -l
-##$ -l h_rt=0:01:00		# ask for 1 hour runtime
-#SBATCH --constraint=elves     # only run on dwarves
+#SBATCH --time=0:01:00
+#SBATCH --mem=100G
+#SBATCH --constraint=elves
 
 module load OpenMPI
+module load foss/2020a --quiet
 
-mpirun /homes/cody598/cis520/Project4/3way-pthread/pThreads #change to match the path to your code
+echo pThread
+
+time /homes/cody598/cis520/Project4/3way-pthread/openMP-10k

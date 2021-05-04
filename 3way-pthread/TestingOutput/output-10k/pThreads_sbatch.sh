@@ -1,12 +1,11 @@
 #!/bin/bash -l
 #SBATCH --time=0:01:00
-#SBATCH --mem=4G
+#SBATCH --mem=100G
 #SBATCH --constraint=elves
 
 module load OpenMPI
 module load foss/2020a --quiet
 
-echo pThreads
+echo pThread
 
-time /homes/cody598/cis520/Project4/3way-pthread/pthreads-10k
-
+time /homes/cody598/cis520/Project4/3way-pthread/pThreads-10k

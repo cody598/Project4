@@ -1,5 +1,5 @@
 /* Finds the average values of read character lines from file.	
-   MPI - Parralel
+   MPI - Parallel
    Project 4 - Team 20 
 */
 
@@ -203,20 +203,13 @@ main(int argc, char *argv[])
 	{
 		PrintLineAverages();
 		gettimeofday(&t3, NULL);
-		// Data Process Time (to find avg)
-		timeElapsedProcess = (t2.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
-		timeElapsedProcess += (t2.tv_usec - t1.tv_usec) / 1000.0;
-
-		// Data Printing Time
-		timeElapsedPrint = (t3.tv_sec - t2.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
-		timeElapsedPrint += (t3.tv_usec - t2.tv_usec) / 1000.0;
 
 		//total program time
-		timeElapsedTotal = (t3.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
+		timeElapsedTotal = (t3.tv_sec - t1.tv_sec) * 1000.0; //Time converted to milliseconds
 		timeElapsedTotal += (t3.tv_usec - t1.tv_usec) / 1000.0;
 		
 		/* Important Data Retreival and Setup. */	
-		printf("Tasks: %s\nProcess Elapsed Time: %fms\nPrint Elapsed Time: %fms\nTotal Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedProcess, timeElapsedPrint, timeElapsedTotal);
+		printf("Tasks: %s\n Total Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
 		GetProcessMemory(&myMem);
 		printf("size = %d, Node: %s, vMem %u KB, pMem %u KB\n", NUM_THREADS, getenv("HOSTNAME"), myMem.virtualMem, myMem.physicalMem);
 		printf("Main: program completed. Exiting.\n");

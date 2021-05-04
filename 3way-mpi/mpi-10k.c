@@ -1,5 +1,5 @@
 /* Finds the average values of read character lines from file.	
-   MPI - Parralel
+   MPI - Parallel
    Project 4 - Team 20 
 */
 
@@ -156,6 +156,7 @@ main(int argc, char *argv[])
 {
 	int i, rc;
 	int rank, numtasks;
+	double timeElapsedInit, timeElapsedProcess, timeElapsedPrint, timeElapsedTotal;
 	FILE * fd;
 	MPI_Status Status;
 	processMem_t myMem; 
@@ -174,6 +175,7 @@ main(int argc, char *argv[])
     /* Start performance metrics. */
     if(rank == 0)
     {
+		gettimeofday(&t1, NULL);
 		printf("DEBUG: starting time on %s\n", getenv("HOSTNAME"));
     }
  
@@ -200,11 +202,14 @@ main(int argc, char *argv[])
 	if(rank == 0)
 	{
 		PrintLineAverages();
+		gettimeofday(&t3, NULL);
 
-
+		//total program time
+		timeElapsedTotal = (t3.tv_sec - t1.tv_sec) * 1000.0;  //Time converted to milliseconds
+		timeElapsedTotal += (t3.tv_usec - t1.tv_usec) / 1000.0;
 		
 		/* Important Data Retreival and Setup. */	
-		printf("Tasks: %s\n", getenv("SLURM_NTASKS"));
+		printf("Tasks: %s\n Total Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
 		GetProcessMemory(&myMem);
 		printf("size = %d, Node: %s, vMem %u KB, pMem %u KB\n", NUM_THREADS, getenv("HOSTNAME"), myMem.virtualMem, myMem.physicalMem);
 		printf("Main: program completed. Exiting.\n");

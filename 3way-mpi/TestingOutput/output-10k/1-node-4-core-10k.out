@@ -28,11 +28,10 @@ MPI
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   elf43
+  Local host:   elf06
   Local device: mlx4_0
 --------------------------------------------------------------------------
-slurmstepd: error: *** JOB 583813 ON elf43 CANCELLED AT 2021-05-03T21:17:46 DUE TO TIME LIMIT ***
-DEBUG: starting time on elf43
+DEBUG: starting time on elf06
 Max lines reached!
 0: 94.1
 1: 91.9
@@ -10035,5 +10034,10 @@ Max lines reached!
 9998: 91.8
 9999: 93.1
 Tasks: 4
-size = 1, Node: elf43, vMem 240932 KB, pMem 14296 KB
+ Total Elapsed Time: 500894338094.994019ms
+size = 1, Node: elf06, vMem 240932 KB, pMem 14036 KB
 Main: program completed. Exiting.
+
+real	0m0.497s
+user	0m0.116s
+sys	0m0.049s

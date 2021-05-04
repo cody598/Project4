@@ -1,15 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=OpenMP
-#SBATCH -o 3way-OpenMP-MASSBATCH-STATS.out
-for j in 1 2 3
+#SBATCH --job-name=openMP
+#SBATCH -o 3way-openMP-MASSBATCH-STATS.out
+for i in 1 2 4 8 16
 do
-	for i in 1 2 4 8 
-	do
-	if(($i == 8))
-	then
-		sleep 20
-	fi
-		echo "Nodes: $j, Tasks: $i"
-		sbatch --constraint=elves --ntasks-per-node=$i --nodes=$j --job-name=OpenMP -o $j-node-$i-core-500k.out mpi_sbatch.sh
-	done
-done	
+	echo "Tasks: $i"
+	sbatch --constraint=elves --ntasks-per-node=$i --nodes=1 --job-name=openMP -o $i-core-500k.out openmp_sbatch.sh
+done

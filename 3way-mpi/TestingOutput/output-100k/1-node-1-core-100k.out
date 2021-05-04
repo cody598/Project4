@@ -25,8 +25,8 @@ The following have been reloaded with a version change:
  10) zlib/1.2.11-GCCcore-10.2.0 => zlib/1.2.11-GCCcore-9.3.0
 
 MPI
-[elf33:10686] [[8016,0],0] ORTE_ERROR_LOG: Data unpack would read past end of buffer in file util/show_help.c at line 501
-DEBUG: starting time on elf33
+[elf08:23144] [[19347,0],0] ORTE_ERROR_LOG: Out of resource in file util/show_help.c at line 501
+DEBUG: starting time on elf08
 Max lines reached!
 0: 94.1
 1: 91.9
@@ -100029,9 +100029,10 @@ Max lines reached!
 99998: 96.3
 99999: 93.8
 Tasks: 1
-size = 1, Node: elf33, vMem 241368 KB, pMem 14400 KB
+ Total Elapsed Time: 500591248964.375977ms
+size = 1, Node: elf08, vMem 241612 KB, pMem 18892 KB
 Main: program completed. Exiting.
 
-real	0m1.801s
-user	0m0.932s
-sys	0m0.078s
+real	0m1.452s
+user	0m0.927s
+sys	0m0.100s

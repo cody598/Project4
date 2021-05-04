@@ -1,15 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=pThreads
 #SBATCH -o 3way-pThreads-MASSBATCH-STATS.out
-for j in 1 2 3
+for i in 1 2 4 8 16
 do
-	for i in 1 2 4 8 
-	do
-	if(($i == 8))
-	then
-		sleep 20
-	fi
-		echo "Nodes: $j, Tasks: $i"
-		sbatch --constraint=elves --ntasks-per-node=$i --nodes=$j --job-name=pThreads -o $j-node-$i-core-10k.out pThreads_sbatch.sh
-	done
-done	
+	echo "Tasks: $i"
+	sbatch --constraint=elves --ntasks-per-node=$i --nodes=1 --job-name=pThreads -o $i-core-10k.out pThreads_sbatch.sh
+done

@@ -25,13 +25,8 @@ The following have been reloaded with a version change:
  10) zlib/1.2.11-GCCcore-10.2.0 => zlib/1.2.11-GCCcore-9.3.0
 
 MPI
---------------------------------------------------------------------------
-WARNING: There was an error initializing an OpenFabrics device.
-
-  Local host:   elf29
-  Local device: mlx4_0
---------------------------------------------------------------------------
-DEBUG: starting time on elf29
+[elf33:33054] [[47088,0],0] ORTE_ERROR_LOG: Data unpack would read past end of buffer in file util/show_help.c at line 501
+DEBUG: starting time on elf33
 Max lines reached!
 0: 94.1
 1: 91.9
@@ -100034,9 +100029,10 @@ Max lines reached!
 99998: 96.3
 99999: 93.8
 Tasks: 2
-size = 1, Node: elf29, vMem 241372 KB, pMem 14392 KB
+ Total Elapsed Time: 500591248935.431030ms
+size = 1, Node: elf33, vMem 241372 KB, pMem 14512 KB
 Main: program completed. Exiting.
 
-real	0m1.444s
-user	0m0.940s
-sys	0m0.070s
+real	0m1.795s
+user	0m0.936s
+sys	0m0.118s

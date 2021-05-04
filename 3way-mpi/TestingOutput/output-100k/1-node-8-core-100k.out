@@ -28,10 +28,10 @@ MPI
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   elf52
+  Local host:   elf10
   Local device: mlx4_0
 --------------------------------------------------------------------------
-DEBUG: starting time on elf52
+DEBUG: starting time on elf10
 Max lines reached!
 0: 94.1
 1: 91.9
@@ -100034,9 +100034,10 @@ Max lines reached!
 99998: 96.3
 99999: 93.8
 Tasks: 8
-size = 1, Node: elf52, vMem 242316 KB, pMem 15760 KB
+ Total Elapsed Time: 500591272959.422974ms
+size = 1, Node: elf10, vMem 241648 KB, pMem 19172 KB
 Main: program completed. Exiting.
 
-real	0m1.435s
-user	0m0.924s
-sys	0m0.132s
+real	0m1.863s
+user	0m0.966s
+sys	0m0.084s

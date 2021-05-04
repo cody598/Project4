@@ -1,5 +1,5 @@
 /* Finds the average values of read character lines from file.	
-   pThreads - Parralel
+   pThreads - Parallel
    Project 4 - Team 20 
 */
 
@@ -18,8 +18,10 @@
 #define ALPHABET_SIZE 26
 
 pthread_mutex_t mutexsum;			// mutex for char_counts
-int NUM_THREADS = 4;
+int NUM_THREADS = 2;
 float line_avg[ARRAY_SIZE];			// count of individual characters
+char lines[ARRAY_SIZE][STRING_SIZE];
+FILE *fd;
 
 typedef struct{
     uint32_t virtualMem;
@@ -34,6 +36,17 @@ int parseLine(char *line) {
 	line[i - 3] = '\0';
 	i = atoi(p);
 	return i;
+}
+
+void readFile()
+{
+	int err,i;
+	fd = fopen( "/homes/dan/625/wiki_dump.txt", "r" );
+	for ( i = 0; i < ARRAY_SIZE; i++ )  {
+      err = fscanf( fd, "%[^\n]\n", lines[i]);
+      if( err == EOF ) break;
+	}
+	fclose( fd );
 }
 
 void GetProcessMemory(processMem_t* processMem) {
@@ -71,9 +84,7 @@ void *count_array(int myID)
 {
     char theChar;
     int i, startPos, endPos, err;
-    float local_line_avg[ARRAY_SIZE];
 	int currentLine = 0;
-    FILE *fd;
     char line[STRING_SIZE];
 	int nchars;
 	int nlines = 0;
@@ -82,39 +93,13 @@ void *count_array(int myID)
 	endPos = startPos + (ARRAY_SIZE / NUM_THREADS);
 
 	printf("myID = %d startPos = %d endPos = %d \n", myID, startPos, endPos);
-
-	//initialize local line average
-	for (i = startPos; i < endPos; i++ ) {
-		local_line_avg[i] = 0.0;
-	}
 	
-	pthread_mutex_init(&mutexsum, NULL);
-	
-	fd = fopen( "/homes/dan/625/wiki_dump.txt", "r" );
-
-	while(nlines < startPos)
-	{
-		err = fscanf( fd, "%[^\n]\n", line);
-		if( err == EOF ) break;
-		nlines++;
-	}
 	for(i = startPos; i < endPos; i++)
 	{
-		err = fscanf( fd, "%[^\n]\n", line);
-		if( err == EOF ) break;
-		nchars = strlen( line );
-		local_line_avg[i] = find_avg(line, nchars);
+		nchars = strlen( lines[i] );
+		line_avg[i] = find_avg(lines[i], nchars);
 	} 
-	
-	fclose( fd );
 
-	pthread_mutex_lock (&mutexsum);
-	// sum up the partial counts into the global arrays
-	for (i = startPos; i < endPos; i++ ) 
-	{
-		line_avg[i] += local_line_avg[i];
-	}
-	pthread_mutex_unlock (&mutexsum);
 	pthread_exit(NULL);
 }
 
@@ -131,13 +116,17 @@ void print_results(float lineavg[])
 main() {
 
 	int i, rc;
-	NUM_THREADS = ("SLURM_NTASKS");
+	NUM_THREADS = atoi(getenv("SLURM_NTASKS"));
 	pthread_t threads[NUM_THREADS];
 	pthread_attr_t attr;
 	void *status;
 	struct timeval t1, t2, t3;
     double timeElapsedInit, timeElapsedProcess, timeElapsedPrint, timeElapsedTotal;
     processMem_t memory;
+	
+	pthread_mutex_init(&mutexsum, NULL);
+	
+	readFile();
 
 	/* Timing analysis begins */
     gettimeofday(&t1, NULL);
