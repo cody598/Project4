@@ -1,7 +1,7 @@
 #!/bin/bash -l
-##$ -l h_rt=0:00:01             # ask for 1 minute runtime
+##$ -l h_rt=0:01:00		# ask for 1 hour runtime
 #SBATCH --constraint=elves     # only run on dwarves
 
 module load OpenMPI
 
-mpirun mpirun /homes/cody598/cis520/Project4/3way-pthread/pThread #change to match the path to your code
+mpirun /homes/cody598/cis520/Project4/3way-pthread/pThreads #change to match the path to your code

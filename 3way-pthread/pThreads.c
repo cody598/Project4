@@ -1,36 +1,56 @@
+/* Finds the average values of read character lines from file.	
+   pThreads - Parralel
+   Project 4 - Team 20 
+*/
+
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+#include <sys/time.h>
+#include "sys/types.h"
+#include "sys/sysinfo.h"
 
-#define NUM_THREADS 4
 
-#define ARRAY_SIZE 16000000
-#define STRING_SIZE 16
+#define ARRAY_SIZE 1000000
+#define STRING_SIZE 2001
 #define ALPHABET_SIZE 26
 
 pthread_mutex_t mutexsum;			// mutex for char_counts
+int NUM_THREADS = 4;
+float line_avg[ARRAY_SIZE];			// count of individual characters
 
-char line_array[ARRAY_SIZE][STRING_SIZE];
-int line_avg[ALPHABET_SIZE];			// count of individual characters
+typedef struct{
+    uint32_t virtualMem;
+    uint32_t physicalMem;
+} processMem_t;
 
+int parseLine(char *line) {
+	// This assumes that a digit will be found and the line ends in " Kb".
+	int i = strlen(line);
+	const char *p = line;
+	while (*p < '0' || *p > '9') p++;
+	line[i - 3] = '\0';
+	i = atoi(p);
+	return i;
+}
 
-void init_arrays()
-{
-  int i, j, err;
-  
-  pthread_mutex_init(&mutexsum, NULL);
-  FILE *fd;
+void GetProcessMemory(processMem_t* processMem) {
+	FILE *file = fopen("/proc/self/status", "r");
+	char line[128];
 
-   fd = fopen( "/homes/dan/625/wiki_dump.txt", "r" );
-   for ( i = 0; i < ARRAY_SIZE; i++ )  {
-      err = fscanf( fd, "%[^\n]\n", line_array[i]);
-      if( err == EOF ) break;
-   }
+	while (fgets(line, 128, file) != NULL) {
+		//printf("%s", line);
+		if (strncmp(line, "VmSize:", 7) == 0) {
+			processMem->virtualMem = parseLine(line);
+		}
 
-  for ( i = 0; i < ARRAY_SIZE; i++ ) {
-  	line_avg[i] = 0.0;
-  }
+		if (strncmp(line, "VmRSS:", 6) == 0) {
+			processMem->physicalMem = parseLine(line);
+		}
+	}
+	fclose(file);
 }
 
 float find_avg(char* line, int nchars) {
@@ -49,64 +69,83 @@ float find_avg(char* line, int nchars) {
 
 void *count_array(int myID)
 {
-	char theChar;
-	int i, j, charLoc;
-	float local_line_avg[ARRAY_SIZE];
-	int startPos, endPos;
+    char theChar;
+    int i, startPos, endPos, err;
+    float local_line_avg[ARRAY_SIZE];
+	int currentLine = 0;
+    FILE *fd;
+    char line[STRING_SIZE];
+	int nchars;
+	int nlines = 0;
 
-	#pragma omp private(myID,theChar,charLoc,local_char_count,startPos,endPos,i,j)
-	{
-		startPos = myID * (ARRAY_SIZE / NUM_THREADS);
-		endPos = startPos + (ARRAY_SIZE / NUM_THREADS);
+	startPos = myID * (ARRAY_SIZE / NUM_THREADS);
+	endPos = startPos + (ARRAY_SIZE / NUM_THREADS);
 
-		printf("myID = %d startPos = %d endPos = %d \n", myID, startPos, endPos);
+	printf("myID = %d startPos = %d endPos = %d \n", myID, startPos, endPos);
 
-						// init local count array
-		for ( i = 0; i < ARRAY_SIZE; i++ ) {
-			local_line_avg[i] = 0.0;
-		}
-		
-		// count up our section of the global array
-		for ( i = startPos; i < endPos; i++) {
-			local_line_avg[i]=find_avg(line_array[i], strlen(line_array[i]));
-		}
-
-		pthread_mutex_lock (&mutexsum);
-		// sum up the partial counts into the global arrays
-		
-		#pragma omp critical
-		{
-			for ( i = 0; i < ARRAY_SIZE; i++ ) {
-		 		line_avg[i] += local_line_avg[i];
-			}
-		}
-		pthread_mutex_unlock (&mutexsum);
-		pthread_exit(NULL);
+	//initialize local line average
+	for (i = startPos; i < endPos; i++ ) {
+		local_line_avg[i] = 0.0;
 	}
+	
+	pthread_mutex_init(&mutexsum, NULL);
+	
+	fd = fopen( "/homes/dan/625/wiki_dump.txt", "r" );
+
+	while(nlines < startPos)
+	{
+		err = fscanf( fd, "%[^\n]\n", line);
+		if( err == EOF ) break;
+		nlines++;
+	}
+	for(i = startPos; i < endPos; i++)
+	{
+		err = fscanf( fd, "%[^\n]\n", line);
+		if( err == EOF ) break;
+		nchars = strlen( line );
+		local_line_avg[i] = find_avg(line, nchars);
+	} 
+	
+	fclose( fd );
+
+	pthread_mutex_lock (&mutexsum);
+	// sum up the partial counts into the global arrays
+	for (i = startPos; i < endPos; i++ ) 
+	{
+		line_avg[i] += local_line_avg[i];
+	}
+	pthread_mutex_unlock (&mutexsum);
+	pthread_exit(NULL);
 }
 
-void print_results(float the_line_avg[])
+void print_results(float lineavg[])
 {
   int i,j, total = 0;
 
-  					// then print out the totals
+  // then print out the totals
   for ( i = 0; i < ARRAY_SIZE; i++ ) {
-	printf("%d: %.1f\n", i, the_line_avg[i]);
+	printf("%d: %.1f\n", i, lineavg[i]);
   }
 }
 
 main() {
 
 	int i, rc;
+	NUM_THREADS = ("SLURM_NTASKS");
 	pthread_t threads[NUM_THREADS];
 	pthread_attr_t attr;
 	void *status;
+	struct timeval t1, t2, t3;
+    double timeElapsedInit, timeElapsedProcess, timeElapsedPrint, timeElapsedTotal;
+    processMem_t memory;
 
+	/* Timing analysis begins */
+    gettimeofday(&t1, NULL);
+	printf("DEBUG: starting time on %s\n", getenv("HOSTNAME"));
+	
 	/* Initialize and set thread detached attribute */
 	pthread_attr_init(&attr);
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-
-	init_arrays();
 
 	for (i = 0; i < NUM_THREADS; i++ ) {
 	      rc = pthread_create(&threads[i], &attr, count_array, (void *)i);
@@ -115,7 +154,7 @@ main() {
 		exit(-1);
 	      }
 	}
-
+	
 	/* Free attribute and wait for the other threads */
 	pthread_attr_destroy(&attr);
 	for(i=0; i<NUM_THREADS; i++) {
@@ -125,11 +164,33 @@ main() {
 		   exit(-1);
 	     }
 	}
+	
+	gettimeofday(&t2, NULL); //t3 - t2 for processing
 
 	print_results(line_avg);
 
+	gettimeofday(&t3, NULL); //t3 - t1 for whole program
+
+	// Data Process Time (to find avg)
+    timeElapsedProcess = (t2.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
+    timeElapsedProcess += (t2.tv_usec - t1.tv_usec) / 1000.0;
+
+    // Data Printing Time
+    timeElapsedPrint = (t3.tv_sec - t2.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
+    timeElapsedPrint += (t3.tv_usec - t2.tv_usec) / 1000.0;
+
+    //total program time
+    timeElapsedTotal = (t3.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
+    timeElapsedTotal += (t3.tv_usec - t1.tv_usec) / 1000.0;
+
 	pthread_mutex_destroy(&mutexsum);
+	
+	printf("Tasks: %s\nProcess Elapsed Time: %fms\nPrint Elapsed Time: %fms\nTotal Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedProcess, timeElapsedPrint, timeElapsedTotal);
+    GetProcessMemory(&memory);
+	
+	printf("size = %d, Node: %s, vMem %u KB, pMem %u KB\n", NUM_THREADS, getenv("HOSTNAME"), memory.virtualMem, memory.physicalMem);
 	printf("Main: program completed. Exiting.\n");
+	
 	pthread_exit(NULL);
 }
 

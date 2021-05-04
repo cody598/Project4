@@ -22,7 +22,7 @@ float line_average[MAX_LINES];
 float local_average[MAX_LINES];
 
 /* Timekeeping variables. */
-struct timeval t1, t2;
+struct timeval t1, t2, t3;
 double overalltime;
 
 typedef struct {
@@ -78,7 +78,7 @@ void read_line_avg(int rank, FILE * fd)
 	char tempBuffer[MAX_LINE_LENGTH];
 	int fileSize;
 	int	chunks;
-	int beginning;
+	int start;
 	int currentLine = 0;
 
 	/* Get file size and set the chunks from the total file size*/
@@ -86,7 +86,7 @@ void read_line_avg(int rank, FILE * fd)
 	fileSize = ftell(fd);
 	chunks = fileSize/NUM_THREADS;
 
-	/* Based on rank, set the beginning position. */
+	/* Based on rank, set the start position. */
 	if(rank == 0)
 		fseek(fd, 0, SEEK_SET);
 
@@ -102,16 +102,16 @@ void read_line_avg(int rank, FILE * fd)
 	}
 
 	/* Find current line number. */
-	beginning = ftell(fd);
+	start = ftell(fd);
 	fseek(fd, 0, SEEK_SET);
-	while(ftell(fd) < beginning)
+	while(ftell(fd) < start)
 	{
 		fscanf(fd, "%[^\n]\n", tempBuffer);
 		currentLine++;
 	}
 
 	/* Sets file start position */
-	fseek(fd, beginning, SEEK_SET);
+	fseek(fd, start, SEEK_SET);
 		
 	/* End of File not reached and new block has yet to be assigned. */
 	while(ftell(fd) <= (rank+1)*chunks
@@ -156,6 +156,7 @@ main(int argc, char *argv[])
 {
 	int i, rc;
 	int rank, numtasks;
+	double timeElapsedInit, timeElapsedProcess, timeElapsedPrint, timeElapsedTotal;
 	FILE * fd;
 	MPI_Status Status;
 	processMem_t myMem; 
@@ -191,6 +192,8 @@ main(int argc, char *argv[])
 	/* Gets the line averages of the read-in-file */
 	read_line_avg(rank, fd);
 	fclose(fd);
+	
+	gettimeofday(&t2, NULL);
 
 	/* Merge local arrays into the global array. */
 	MPI_Reduce(local_average, line_average, MAX_LINES, MPI_FLOAT, MPI_SUM, 0, MPI_COMM_WORLD);
@@ -199,17 +202,27 @@ main(int argc, char *argv[])
 	if(rank == 0)
 	{
 		PrintLineAverages();
-		gettimeofday(&t2, NULL);
-		overalltime = (t2.tv_sec - t1.tv_sec) * 1000.0; //convert to milliseconds
-		overalltime += (t2.tv_usec - t1.tv_usec) / 1000.0; // convert to milliseconds
-		printf("Tasks: %s, Elapsed Time: %fms\n",  getenv("SLURM_NTASKS"),  overalltime);
+		gettimeofday(&t3, NULL);
+		// Data Process Time (to find avg)
+		timeElapsedProcess = (t2.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
+		timeElapsedProcess += (t2.tv_usec - t1.tv_usec) / 1000.0;
+
+		// Data Printing Time
+		timeElapsedPrint = (t3.tv_sec - t2.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
+		timeElapsedPrint += (t3.tv_usec - t2.tv_usec) / 1000.0;
+
+		//total program time
+		timeElapsedTotal = (t3.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
+		timeElapsedTotal += (t3.tv_usec - t1.tv_usec) / 1000.0;
+		
 		/* Important Data Retreival and Setup. */	
+		printf("Tasks: %s\nProcess Elapsed Time: %fms\nPrint Elapsed Time: %fms\nTotal Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedProcess, timeElapsedPrint, timeElapsedTotal);
 		GetProcessMemory(&myMem);
-		printf("size = %d rank = %d, Node: %s, vMem %u KB, pMem %u KB\n", numtasks, rank, getenv("HOSTNAME"), myMem.virtualMem, myMem.physicalMem);
+		printf("size = %d, Node: %s, vMem %u KB, pMem %u KB\n", NUM_THREADS, getenv("HOSTNAME"), myMem.virtualMem, myMem.physicalMem);
+		printf("Main: program completed. Exiting.\n");
 	}
 
 	MPI_Finalize();
-	printf("Main: program completed. Exiting.\n");
-	
+
 	return 0;
 }

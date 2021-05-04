@@ -3,7 +3,6 @@
    Project 4 - Team 20 
 */
 
-
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,8 +12,7 @@
 #include "sys/types.h"
 #include "sys/sysinfo.h"
 
-#define ARRAY_SIZE 1000000
-#define NUM_THREADS 16
+#define ARRAY_SIZE 1000
 #define STRING_SIZE 2001
 
 #define MAX_CORES 32
@@ -22,6 +20,8 @@
 #define PRINTABLE_CHAR_MAX 126
 
 float line_avg[ARRAY_SIZE];
+int NUM_THREADS = 8;
+int count = 0;
 
 typedef struct{
     uint32_t virtualMem;
@@ -59,6 +59,7 @@ void GetProcessMemory(processMem_t* processMem) {
 float find_avg(char* line, int nchars) {
     int i, j;
     float sum = 0;
+	
 
     for ( i = 0; i < nchars; i++ ) {
         sum += ((int) line[i]);
@@ -74,36 +75,35 @@ float find_avg(char* line, int nchars) {
 //Removed file pointer argument in this version as it seems unnecessary/unused.
 void *count_array(int myID)
 {
-    char theChar;
     int i, startPos, endPos, err;
     float local_line_avg[ARRAY_SIZE];
-	int currentLine = 0;
     FILE *fd;
     char line[STRING_SIZE];
 	int nchars;
 	int nlines = 0;
 	
-    //Directive that instructs each thread to keep its own copy of function's private variables.
-    #pragma omp private(myID, theChar, i, startPos, endPos,local_line_avg,nchars,err,nlines, line, err)
+        //Directive that instructs each thread to keep its own copy of function's private variables.
+    #pragma omp private(myID, i, startPos, endPos,local_line_avg,nchars,nlines, line, err)
     {
-        startPos = ((int) myID) * (ARRAY_SIZE / NUM_THREADS);
-        endPos = startPos + (ARRAY_SIZE / NUM_THREADS);
-        printf("myID = %d startPos = %d endPos = %d \n", (int) myID, startPos, endPos);
-        
-        //initialize local line average
-        for ( i = startPos; i < endPos; i++ ) {
+
+		startPos = ((int) myID) * (ARRAY_SIZE / NUM_THREADS);
+		endPos = startPos + (ARRAY_SIZE / NUM_THREADS);
+		printf("myID = %d startPos = %d endPos = %d \n", (int) myID, startPos, endPos);
+		
+		//initialize local line average
+		for ( i = startPos; i < endPos; i++ ) {
 			local_line_avg[i] = 0.0;
 		}
 
 		fd = fopen( "/homes/dan/625/wiki_dump.txt", "r" );
 
-	    while(nlines < startPos)
+		while(nlines < startPos)
 		{
 			err = fscanf( fd, "%[^\n]\n", line);
 			if( err == EOF ) break;
 			nlines++;
 		}
-		for(int i = startPos; i < endPos; i++)
+		for(i = startPos; i < endPos; i++)
 		{
 			err = fscanf( fd, "%[^\n]\n", line);
 			if( err == EOF ) break;
@@ -112,6 +112,7 @@ void *count_array(int myID)
 		} 
 		
 		fclose( fd );
+	
 		
         //Critical section is indicated here, should wrap the addition of all local character counts to the global.
         #pragma omp critical
@@ -119,6 +120,7 @@ void *count_array(int myID)
             for ( i = startPos; i < endPos; i++) {
                 line_avg[i] += local_line_avg[i];
             }
+			count++;
         }
     }
 }
@@ -132,47 +134,48 @@ void print_results(float line_avg[]){
 }
 
 main()
-{
-    // Sets the number of threads.
-    omp_set_num_threads(NUM_THREADS);
-    struct timeval t1, t2, t3, t4;
+{	
+    struct timeval t1, t2, t3;
     double timeElapsedInit, timeElapsedProcess, timeElapsedPrint, timeElapsedTotal;
     processMem_t memory;
-    
-    
-    /* Timing analysis begins */
-    gettimeofday(&t1, NULL);
-    
+	int tid = 0;
+	
+	// Sets the number of threads.
+	char *temp = getenv("SLURM_NTASKS");
+	NUM_THREADS = atoi(temp);
+	omp_set_num_threads(NUM_THREADS);
+	printf("DEBUG: starting time on %s\n", getenv("HOSTNAME"));
+		
+	/* Timing analysis begins */
+	gettimeofday(&t1, NULL);
+		 
     #pragma omp parallel
     {
-        count_array(omp_get_thread_num());
+		tid = omp_get_thread_num();
+        count_array(tid);
     }
 	
-    gettimeofday(&t2, NULL); //t3 - t2 for processing
-    
-    print_results(line_avg);
-    
-    gettimeofday(&t3, NULL); //t4 - t1 for whole program
-    
-    //init_array time
-    timeElapsedInit = (t2.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
-    timeElapsedInit += (t2.tv_usec - t1.tv_usec) / 1000.0;
+	gettimeofday(&t2, NULL); //t3 - t2 for processing
+	
+	print_results(line_avg);
+	
+	gettimeofday(&t3, NULL); //t4 - t1 for whole program
+	
+	// Data Process Time (to find avg)
+	timeElapsedProcess = (t2.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
+	timeElapsedProcess += (t2.tv_usec - t1.tv_usec) / 1000.0;
 
-    // Data Process Time (to find avg)
-    timeElapsedProcess = (t2.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
-    timeElapsedProcess += (t2.tv_usec - t1.tv_usec) / 1000.0;
+	// Data Printing Time
+	timeElapsedPrint = (t3.tv_sec - t2.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
+	timeElapsedPrint += (t3.tv_usec - t2.tv_usec) / 1000.0;
 
-    // Data Printing Time
-    timeElapsedPrint = (t3.tv_sec - t2.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
-    timeElapsedPrint += (t3.tv_usec - t2.tv_usec) / 1000.0;
-
-    //total program time
-    timeElapsedTotal = (t3.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
-    timeElapsedTotal += (t3.tv_usec - t1.tv_usec) / 1000.0;
-        
-    printf("Tasks: %s\nProcess Elapsed Time: %fms\nPrint Elapsed Time: %fms\nTotal Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedProcess, timeElapsedPrint, timeElapsedTotal);
-    
-    GetProcessMemory(&memory);
+	//total program time
+	timeElapsedTotal = (t3.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
+	timeElapsedTotal += (t3.tv_usec - t1.tv_usec) / 1000.0;
+		
+	printf("Tasks: %s\nProcess Elapsed Time: %fms\nPrint Elapsed Time: %fms\nTotal Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedProcess, timeElapsedPrint, timeElapsedTotal);
+	
+	GetProcessMemory(&memory);
 	printf("size = %d, Node: %s, vMem %u KB, pMem %u KB\n", NUM_THREADS, getenv("HOSTNAME"), memory.virtualMem, memory.physicalMem);
 
 	printf("Main: program completed. Exiting.\n");
