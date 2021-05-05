@@ -17,9 +17,6 @@
 #define STRING_SIZE 2001
 #define ARRAY_SIZE 100000
 
-#define PRINTABLE_CHAR_MIN 32
-#define PRINTABLE_CHAR_MAX 126
-
 /* Global variables. */
 float NUM_THREADS;
 unsigned int thread_locations[MAXIMUM_TASKS];
@@ -46,7 +43,6 @@ void GetProcessMemory(processMem_t* processMem) {
 	char line[128];
 
 	while (fgets(line, 128, file) != NULL) {
-		//printf("%s", line);
 		if (strncmp(line, "VmSize:", 7) == 0) {
 			processMem->virtualMem = parseLine(line);
 		}
@@ -95,20 +91,19 @@ void find_avg(int rank, FILE * fp)
 }
 
 
-/* Prints the results. */
+/* Prints the char averages. */
 void printResults()
 {
 	int i;
 	for(i = 0; i<ARRAY_SIZE; i++)
 	{
-		/* Print mean. */
 		printf("%d: %.1f\n", i, line_averages[i]);
 	}
 }
 
 main(int argc, char *argv[])
 {
-	/* Timekeeping variables. */
+	/* Time variables. */
 	struct timeval t1, t2;
 	double timeElapsedTotal;
 	

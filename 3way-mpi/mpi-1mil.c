@@ -17,9 +17,6 @@
 #define STRING_SIZE 2001
 #define ARRAY_SIZE 1000000
 
-#define PRINTABLE_CHAR_MIN 32
-#define PRINTABLE_CHAR_MAX 126
-
 /* Global variables. */
 float NUM_THREADS;
 unsigned int thread_locations[MAXIMUM_TASKS];
@@ -46,7 +43,6 @@ void GetProcessMemory(processMem_t* processMem) {
 	char line[128];
 
 	while (fgets(line, 128, file) != NULL) {
-		//printf("%s", line);
 		if (strncmp(line, "VmSize:", 7) == 0) {
 			processMem->virtualMem = parseLine(line);
 		}
@@ -59,7 +55,7 @@ void GetProcessMemory(processMem_t* processMem) {
 }
 
 /* Find average char value of a line. */
-float find_line_avg(char* line, int nchars) 
+float find_line_average(char* line, int nchars) 
 {
    int i, j;
    float sum = 0;
@@ -75,7 +71,6 @@ float find_line_avg(char* line, int nchars)
 	return 0.0;
 }
 
-
 /* Computes the local average array. Work-load distributed equally.*/
 void find_avg(int rank, FILE * fp)
 {
@@ -90,25 +85,25 @@ void find_avg(int rank, FILE * fp)
 	{
 			/* Find and save average of line of char locally */
 			int lineLength = strlen(tempBuffer);
-			local_average[currentLine] = find_line_avg(tempBuffer, lineLength);
+			local_average[currentLine] = find_line_average(tempBuffer, lineLength);
 			currentLine++;
 	}
 }
 
-/* Prints the results. */
+
+/* Prints the char averages. */
 void printResults()
 {
 	int i;
 	for(i = 0; i<ARRAY_SIZE; i++)
 	{
-		/* Print mean. */
 		printf("%d: %.1f\n", i, line_averages[i]);
 	}
 }
 
 main(int argc, char *argv[])
 {
-	/* Timekeeping variables. */
+	/* Time variables. */
 	struct timeval t1, t2;
 	double timeElapsedTotal;
 	
