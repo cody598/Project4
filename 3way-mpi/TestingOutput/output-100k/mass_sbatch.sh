@@ -13,3 +13,4 @@ do
 		sbatch --constraint=elves --ntasks-per-node=$i --nodes=$j --job-name=MPI -o $j-node-$i-core-100k.out mpi_sbatch.sh
 	done
 done	
+

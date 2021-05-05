@@ -28,11 +28,10 @@ MPI
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   elf31
+  Local host:   elf18
   Local device: mlx4_0
 --------------------------------------------------------------------------
-[elf26:46200] [[58786,0],0] ORTE_ERROR_LOG: Data unpack would read past end of buffer in file util/show_help.c at line 501
-DEBUG: starting time on elf26
+DEBUG: starting time on elf15
 0: 94.1
 1: 91.9
 2: 92.3
@@ -100033,8 +100032,8 @@ DEBUG: starting time on elf26
 99997: 91.0
 99998: 96.3
 99999: 93.8
-size = 4 rank = 0, Node: elf26, vMem 359532 KB, pMem 119460 KB
-Tasks: 4, Elapsed Time: 1404.487000ms
-DATA, 4,1404.487000ms
-[elf26:46200] 2 more processes have sent help message help-mpi-btl-openib.txt / error in device init
-[elf26:46200] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+size = 4 rank = 0, Node: elf15, vMem 359524 KB, pMem 117388 KB
+Tasks: 4, Elapsed Time: 1338.355000ms
+DATA, 4,1338.355000ms
+[elf15:47734] 3 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[elf15:47734] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages

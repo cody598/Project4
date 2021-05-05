@@ -28,10 +28,10 @@ MPI
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   elf31
+  Local host:   elf07
   Local device: mlx4_0
 --------------------------------------------------------------------------
-DEBUG: starting time on elf26
+DEBUG: starting time on elf07
 0: 94.1
 1: 91.9
 2: 92.3
@@ -100032,8 +100032,8 @@ DEBUG: starting time on elf26
 99997: 93.1
 99998: 86.3
 99999: 80.6
-size = 24 rank = 0, Node: elf26, vMem 361864 KB, pMem 118056 KB
-Tasks: 24, Elapsed Time: 2543.577000ms
-DATA, 24,2543.577000ms
-[elf26:46559] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
-[elf26:46559] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+size = 24 rank = 0, Node: elf07, vMem 374400 KB, pMem 130588 KB
+Tasks: 24, Elapsed Time: 1155.580000ms
+DATA, 24,1155.580000ms
+[elf07:12590] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[elf07:12590] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
