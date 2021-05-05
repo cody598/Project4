@@ -1,5 +1,5 @@
 #!/bin/bash -l
-#SBATCH --time=0:01:00
+#SBATCH --time=0:10:00
 #SBATCH --mem=100G
 #SBATCH --constraint=elves
 
