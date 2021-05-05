@@ -153,6 +153,7 @@ main()
     timeElapsedTotal += (t4.tv_usec - t1.tv_usec) / 1000.0;
         
     printf("Tasks: %s\nTotal Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
+	printf("DATA, %s,%f\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
 	printf("size = %d, Node: %s, vMem %u KB, pMem %u KB\n", NUM_THREADS, getenv("HOSTNAME"), memory.virtualMem, memory.physicalMem);
 
 	printf("Main: program completed. Exiting.\n");

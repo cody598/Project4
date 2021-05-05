@@ -1,0 +1,12 @@
+1-node-1-core-100k.out:DATA, 1,906.931000
+1-node-2-core-100k.out:DATA, 2,940.359000
+1-node-4-core-100k.out:DATA, 4,950.728000
+1-node-8-core-100k.out:DATA, 8,6047.633000
+2-node-1-core-100k.out:DATA, 2,6321.891000
+2-node-2-core-100k.out:DATA, 4,9715.432000
+2-node-4-core-100k.out:DATA, 8,954.391000
+2-node-8-core-100k.out:DATA, 16,1030.454000
+3-node-1-core-100k.out:DATA, 3,972.794000
+3-node-2-core-100k.out:DATA, 6,926.667000
+3-node-4-core-100k.out:DATA, 12,950.254000
+3-node-8-core-100k.out:DATA, 24,939.390000

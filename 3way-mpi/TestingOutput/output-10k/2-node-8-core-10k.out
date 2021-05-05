@@ -28,10 +28,10 @@ MPI
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   elf57
-  Local device: mlx4_0
+  Local host:   elf78
+  Local device: mlx4_1
 --------------------------------------------------------------------------
-DEBUG: starting time on elf57
+DEBUG: starting time on elf78
 Max lines reached!
 0: 94.1
 1: 91.9
@@ -10034,10 +10034,32 @@ Max lines reached!
 9998: 91.8
 9999: 93.1
 Tasks: 16
- Total Elapsed Time: 500894397093.318970ms
-size = 1, Node: elf57, vMem 241536 KB, pMem 14968 KB
+ Total Elapsed Time: 138.997000ms
+DATA, 16,138.997000
+size = 1, Node: elf78, vMem 241620 KB, pMem 14980 KB
 Main: program completed. Exiting.
+[elf78:37387:0:37387] Caught signal 11 (Segmentation fault: address not mapped to object at address 0x7fe142b686e5)
+==== backtrace (tid:  37387) ====
+ 0 0x0000000000021783 ucs_debug_print_backtrace()  /tmp/easybuild/UCX/1.8.0/GCCcore-9.3.0/ucx-1.8.0/src/ucs/debug/debug.c:653
+ 1 0x0000000000035d3f ompi_comm_finalize()  ???:0
+ 2 0x00000000000560b5 ompi_mpi_finalize()  ???:0
+ 3 0x0000000000401491 main()  ???:0
+ 4 0x0000000000022555 __libc_start_main()  ???:0
+ 5 0x0000000000400d49 _start()  ???:0
+=================================
+[elf78:37387] *** Process received signal ***
+[elf78:37387] Signal: Segmentation fault (11)
+[elf78:37387] Signal code:  (-6)
+[elf78:37387] Failing at address: 0xf2b0000920b
+[elf78:37387] [ 0] /lib64/libpthread.so.0(+0xf630)[0x7fe18e241630]
+[elf78:37387] [ 1] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_comm_finalize+0xcf)[0x7fe18f527d3f]
+[elf78:37387] [ 2] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_mpi_finalize+0x575)[0x7fe18f5480b5]
+[elf78:37387] [ 3] /homes/cody598/cis520/Project4/3way-mpi/mpi-10k[0x401491]
+[elf78:37387] [ 4] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7fe18f04c555]
+[elf78:37387] [ 5] /homes/cody598/cis520/Project4/3way-mpi/mpi-10k[0x400d49]
+[elf78:37387] *** End of error message ***
+/var/spool/slurm/d/job594466/slurm_script: line 11: 37387 Segmentation fault      (core dumped) /homes/cody598/cis520/Project4/3way-mpi/mpi-10k
 
-real	0m0.352s
-user	0m0.118s
-sys	0m0.054s
+real	0m0.919s
+user	0m0.199s
+sys	0m0.122s

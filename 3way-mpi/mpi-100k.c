@@ -21,9 +21,6 @@ int NUM_THREADS = 4;
 float line_average[MAX_LINES];
 float local_average[MAX_LINES];
 
-/* Timekeeping variables. */
-struct timeval t1, t2, t3;
-double overalltime;
 
 typedef struct {
 	uint32_t virtualMem;
@@ -156,7 +153,12 @@ main(int argc, char *argv[])
 {
 	int i, rc;
 	int rank, numtasks;
+		
+	/* Timekeeping variables. */
+	struct timeval t1, t2, t3;
+	double overalltime;
 	double timeElapsedInit, timeElapsedProcess, timeElapsedPrint, timeElapsedTotal;
+	
 	FILE * fd;
 	MPI_Status Status;
 	processMem_t myMem; 
@@ -210,6 +212,7 @@ main(int argc, char *argv[])
 		
 		/* Important Data Retreival and Setup. */	
 		printf("Tasks: %s\n Total Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
+		printf("DATA, %s,%f\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
 		GetProcessMemory(&myMem);
 		printf("size = %d, Node: %s, vMem %u KB, pMem %u KB\n", NUM_THREADS, getenv("HOSTNAME"), myMem.virtualMem, myMem.physicalMem);
 		printf("Main: program completed. Exiting.\n");

@@ -1,0 +1,5 @@
+16-core-100k.out:DATA, 16,564.009000
+1-core-100k.out:DATA, 1,43402.423000
+2-core-100k.out:DATA, 2,747.360000
+4-core-100k.out:DATA, 4,724.846000
+8-core-100k.out:DATA, 8,573.578000

@@ -25,8 +25,8 @@ The following have been reloaded with a version change:
  10) zlib/1.2.11-GCCcore-10.2.0 => zlib/1.2.11-GCCcore-9.3.0
 
 MPI
-[elf16:17329] [[27635,0],0] ORTE_ERROR_LOG: Out of resource in file util/show_help.c at line 501
-DEBUG: starting time on elf16
+[elf78:36934] [[15672,0],0] ORTE_ERROR_LOG: Out of resource in file util/show_help.c at line 501
+DEBUG: starting time on elf78
 Max lines reached!
 0: 94.1
 1: 91.9
@@ -10029,10 +10029,32 @@ Max lines reached!
 9998: 91.8
 9999: 93.1
 Tasks: 2
- Total Elapsed Time: 500894363097.507996ms
-size = 1, Node: elf16, vMem 240920 KB, pMem 18128 KB
+ Total Elapsed Time: 1062.986000ms
+DATA, 2,1062.986000
+size = 1, Node: elf78, vMem 241596 KB, pMem 14644 KB
 Main: program completed. Exiting.
+[elf78:36931:0:36931] Caught signal 11 (Segmentation fault: address not mapped to object at address 0x7f9042b686e5)
+==== backtrace (tid:  36931) ====
+ 0 0x0000000000021783 ucs_debug_print_backtrace()  /tmp/easybuild/UCX/1.8.0/GCCcore-9.3.0/ucx-1.8.0/src/ucs/debug/debug.c:653
+ 1 0x0000000000035d3f ompi_comm_finalize()  ???:0
+ 2 0x00000000000560b5 ompi_mpi_finalize()  ???:0
+ 3 0x0000000000401491 main()  ???:0
+ 4 0x0000000000022555 __libc_start_main()  ???:0
+ 5 0x0000000000400d49 _start()  ???:0
+=================================
+[elf78:36931] *** Process received signal ***
+[elf78:36931] Signal: Segmentation fault (11)
+[elf78:36931] Signal code:  (-6)
+[elf78:36931] Failing at address: 0xf2b00009043
+[elf78:36931] [ 0] /lib64/libpthread.so.0(+0xf630)[0x7f901e0d3630]
+[elf78:36931] [ 1] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_comm_finalize+0xcf)[0x7f901f3b9d3f]
+[elf78:36931] [ 2] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_mpi_finalize+0x575)[0x7f901f3da0b5]
+[elf78:36931] [ 3] /homes/cody598/cis520/Project4/3way-mpi/mpi-10k[0x401491]
+[elf78:36931] [ 4] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7f901eede555]
+[elf78:36931] [ 5] /homes/cody598/cis520/Project4/3way-mpi/mpi-10k[0x400d49]
+[elf78:36931] *** End of error message ***
+/var/spool/slurm/d/job594454/slurm_script: line 11: 36931 Segmentation fault      (core dumped) /homes/cody598/cis520/Project4/3way-mpi/mpi-10k
 
-real	0m0.344s
-user	0m0.124s
-sys	0m0.038s
+real	0m2.783s
+user	0m0.149s
+sys	0m0.133s

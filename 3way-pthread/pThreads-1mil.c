@@ -121,7 +121,7 @@ main() {
 	pthread_attr_t attr;
 	void *status;
 	struct timeval t1, t2, t3;
-    double timeElapsedInit, timeElapsedProcess, timeElapsedPrint, timeElapsedTotal;
+    double timeElapsedTotal;
     processMem_t memory;
 	
 	pthread_mutex_init(&mutexsum, NULL);
@@ -154,27 +154,21 @@ main() {
 	     }
 	}
 	
-	gettimeofday(&t2, NULL); //t3 - t2 for processing
+	gettimeofday(&t2, NULL); 
 
 	print_results(line_avg);
 
-	gettimeofday(&t3, NULL); //t3 - t1 for whole program
+	gettimeofday(&t3, NULL); 
 
-	// Data Process Time (to find avg)
-    timeElapsedProcess = (t2.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
-    timeElapsedProcess += (t2.tv_usec - t1.tv_usec) / 1000.0;
-
-    // Data Printing Time
-    timeElapsedPrint = (t3.tv_sec - t2.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
-    timeElapsedPrint += (t3.tv_usec - t2.tv_usec) / 1000.0;
 
     //total program time
-    timeElapsedTotal = (t3.tv_sec - t1.tv_sec) * 1000.0; //Time in seconds converted to milliseconds
+    timeElapsedTotal = (t3.tv_sec - t1.tv_sec) * 1000.0; //Converted to milliseconds
     timeElapsedTotal += (t3.tv_usec - t1.tv_usec) / 1000.0;
 
 	pthread_mutex_destroy(&mutexsum);
 	
-	printf("Tasks: %s\nProcess Elapsed Time: %fms\nPrint Elapsed Time: %fms\nTotal Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedProcess, timeElapsedPrint, timeElapsedTotal);
+	printf("Tasks: %s\n Total Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
+	printf("DATA, %s,%f\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
     GetProcessMemory(&memory);
 	
 	printf("size = %d, Node: %s, vMem %u KB, pMem %u KB\n", NUM_THREADS, getenv("HOSTNAME"), memory.virtualMem, memory.physicalMem);
@@ -182,4 +176,3 @@ main() {
 	
 	pthread_exit(NULL);
 }
-

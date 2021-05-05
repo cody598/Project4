@@ -28,10 +28,10 @@ MPI
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   elf34
+  Local host:   elf75
   Local device: mlx4_0
 --------------------------------------------------------------------------
-DEBUG: starting time on elf34
+DEBUG: starting time on elf75
 Max lines reached!
 0: 94.1
 1: 91.9
@@ -10034,10 +10034,32 @@ Max lines reached!
 9998: 91.8
 9999: 93.1
 Tasks: 24
- Total Elapsed Time: 500894398140.955017ms
-size = 1, Node: elf34, vMem 240688 KB, pMem 14064 KB
+ Total Elapsed Time: 93.726000ms
+DATA, 24,93.726000
+size = 1, Node: elf75, vMem 241536 KB, pMem 14964 KB
 Main: program completed. Exiting.
+[elf75:19511:0:19511] Caught signal 11 (Segmentation fault: address not mapped to object at address 0x7fe142b686e5)
+==== backtrace (tid:  19511) ====
+ 0 0x0000000000021783 ucs_debug_print_backtrace()  /tmp/easybuild/UCX/1.8.0/GCCcore-9.3.0/ucx-1.8.0/src/ucs/debug/debug.c:653
+ 1 0x0000000000035d3f ompi_comm_finalize()  ???:0
+ 2 0x00000000000560b5 ompi_mpi_finalize()  ???:0
+ 3 0x0000000000401491 main()  ???:0
+ 4 0x0000000000022555 __libc_start_main()  ???:0
+ 5 0x0000000000400d49 _start()  ???:0
+=================================
+[elf75:19511] *** Process received signal ***
+[elf75:19511] Signal: Segmentation fault (11)
+[elf75:19511] Signal code:  (-6)
+[elf75:19511] Failing at address: 0xf2b00004c37
+[elf75:19511] [ 0] /lib64/libpthread.so.0(+0xf630)[0x7fe1ea677630]
+[elf75:19511] [ 1] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_comm_finalize+0xcf)[0x7fe1eb95dd3f]
+[elf75:19511] [ 2] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_mpi_finalize+0x575)[0x7fe1eb97e0b5]
+[elf75:19511] [ 3] /homes/cody598/cis520/Project4/3way-mpi/mpi-10k[0x401491]
+[elf75:19511] [ 4] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7fe1eb482555]
+[elf75:19511] [ 5] /homes/cody598/cis520/Project4/3way-mpi/mpi-10k[0x400d49]
+[elf75:19511] *** End of error message ***
+/var/spool/slurm/d/job594482/slurm_script: line 11: 19511 Segmentation fault      /homes/cody598/cis520/Project4/3way-mpi/mpi-10k
 
-real	0m0.500s
-user	0m0.180s
-sys	0m0.079s
+real	0m0.666s
+user	0m0.129s
+sys	0m0.055s

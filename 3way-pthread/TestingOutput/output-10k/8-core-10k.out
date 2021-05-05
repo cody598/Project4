@@ -1,20 +1,39 @@
-Lmod has detected the following error: These module(s) or extension(s) exist
-but cannot be loaded as requested: "binutils/2.34-GCCcore-9.3.0"
-   Try: "module spider binutils/2.34-GCCcore-9.3.0" to see how to load the
-module(s).
+
+The following have been reloaded with a version change:
+  1) GCCcore/9.3.0 => GCCcore/10.2.0
+  2) OpenMPI/4.0.3-GCC-9.3.0 => OpenMPI/4.0.5-iccifort-2020.4.304
+  3) UCX/1.8.0-GCCcore-9.3.0 => UCX/1.9.0-GCCcore-10.2.0
+  4) XZ/5.2.5-GCCcore-9.3.0 => XZ/5.2.5-GCCcore-10.2.0
+  5) binutils/2.34-GCCcore-9.3.0 => binutils/2.35-GCCcore-10.2.0
+  6) hwloc/2.2.0-GCCcore-9.3.0 => hwloc/2.2.0-GCCcore-10.2.0
+  7) libpciaccess/0.16-GCCcore-9.3.0 => libpciaccess/0.16-GCCcore-10.2.0
+  8) libxml2/2.9.10-GCCcore-9.3.0 => libxml2/2.9.10-GCCcore-10.2.0
+  9) numactl/2.0.13-GCCcore-9.3.0 => numactl/2.0.13-GCCcore-10.2.0
+ 10) zlib/1.2.11-GCCcore-9.3.0 => zlib/1.2.11-GCCcore-10.2.0
 
 
+The following have been reloaded with a version change:
+  1) GCCcore/10.2.0 => GCCcore/9.3.0
+  2) OpenMPI/4.0.5-iccifort-2020.4.304 => OpenMPI/4.0.3-GCC-9.3.0
+  3) UCX/1.9.0-GCCcore-10.2.0 => UCX/1.8.0-GCCcore-9.3.0
+  4) XZ/5.2.5-GCCcore-10.2.0 => XZ/5.2.5-GCCcore-9.3.0
+  5) binutils/2.35-GCCcore-10.2.0 => binutils/2.34-GCCcore-9.3.0
+  6) hwloc/2.2.0-GCCcore-10.2.0 => hwloc/2.2.0-GCCcore-9.3.0
+  7) libpciaccess/0.16-GCCcore-10.2.0 => libpciaccess/0.16-GCCcore-9.3.0
+  8) libxml2/2.9.10-GCCcore-10.2.0 => libxml2/2.9.10-GCCcore-9.3.0
+  9) numactl/2.0.13-GCCcore-10.2.0 => numactl/2.0.13-GCCcore-9.3.0
+ 10) zlib/1.2.11-GCCcore-10.2.0 => zlib/1.2.11-GCCcore-9.3.0
 
 pThread
-DEBUG: starting time on elf76
+DEBUG: starting time on elf79
 myID = 0 startPos = 0 endPos = 1250 
 myID = 1 startPos = 1250 endPos = 2500 
+myID = 2 startPos = 2500 endPos = 3750 
+myID = 3 startPos = 3750 endPos = 5000 
+myID = 4 startPos = 5000 endPos = 6250 
 myID = 5 startPos = 6250 endPos = 7500 
 myID = 6 startPos = 7500 endPos = 8750 
 myID = 7 startPos = 8750 endPos = 10000 
-myID = 3 startPos = 3750 endPos = 5000 
-myID = 2 startPos = 2500 endPos = 3750 
-myID = 4 startPos = 5000 endPos = 6250 
 0: 94.1
 1: 91.9
 2: 92.3
@@ -10016,12 +10035,11 @@ myID = 4 startPos = 5000 endPos = 6250
 9998: 91.8
 9999: 93.1
 Tasks: 8
-Process Elapsed Time: 12.506000ms
-Print Elapsed Time: 4.800000ms
-Total Elapsed Time: 17.306000ms
-size = 8, Node: elf76, vMem 124548 KB, pMem 20428 KB
+ Total Elapsed Time: 13.469000ms
+DATA, 8,13.469000
+size = 8, Node: elf79, vMem 124548 KB, pMem 20420 KB
 Main: program completed. Exiting.
 
-real	0m0.075s
-user	0m0.088s
-sys	0m0.020s
+real	0m0.141s
+user	0m0.121s
+sys	0m0.021s

@@ -9,3 +9,4 @@ module load foss/2020a --quiet
 echo openMP
 
 time /homes/cody598/cis520/Project4/3way-openMP/openMP-10k
+grep DATA *.out > 10kTimes.csv
