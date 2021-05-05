@@ -26,9 +26,9 @@ The following have been reloaded with a version change:
 
 openMP
 myID = 0 startPos = 0 endPos = 2500 
-myID = 1 startPos = 2500 endPos = 5000 
-myID = 3 startPos = 7500 endPos = 10000 
 myID = 2 startPos = 5000 endPos = 7500 
+myID = 3 startPos = 7500 endPos = 10000 
+myID = 1 startPos = 2500 endPos = 5000 
 0: 94.1
 1: 91.9
 2: 92.3
@@ -10030,11 +10030,11 @@ myID = 2 startPos = 5000 endPos = 7500
 9998: 91.8
 9999: 93.1
 Tasks: 4
-Total Time: 125.798000ms
-DATA, 4,125.798000
-size = 4, Node: elf76, vMem 53004 KB, pMem 20324 KB
+Total Time: 66.711000ms
+DATA, 4,66.711000ms
+size = 4, Node: elf78, vMem 53004 KB, pMem 20324 KB
 Main: program completed. Exiting.
 
-real	0m0.130s
-user	0m0.158s
-sys	0m0.023s
+real	0m0.082s
+user	0m0.102s
+sys	0m0.011s

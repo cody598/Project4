@@ -25,22 +25,22 @@ The following have been reloaded with a version change:
  10) zlib/1.2.11-GCCcore-10.2.0 => zlib/1.2.11-GCCcore-9.3.0
 
 openMP
-myID = 7 startPos = 4375 endPos = 5000 
-myID = 1 startPos = 625 endPos = 1250 
-myID = 6 startPos = 3750 endPos = 4375 
-myID = 4 startPos = 2500 endPos = 3125 
-myID = 3 startPos = 1875 endPos = 2500 
-myID = 5 startPos = 3125 endPos = 3750 
+myID = 15 startPos = 9375 endPos = 10000 
 myID = 2 startPos = 1250 endPos = 1875 
-myID = 8 startPos = 5000 endPos = 5625 
-myID = 9 startPos = 5625 endPos = 6250 
-myID = 12 startPos = 7500 endPos = 8125 
+myID = 7 startPos = 4375 endPos = 5000 
 myID = 0 startPos = 0 endPos = 625 
-myID = 13 startPos = 8125 endPos = 8750 
-myID = 11 startPos = 6875 endPos = 7500 
+myID = 12 startPos = 7500 endPos = 8125 
+myID = 1 startPos = 625 endPos = 1250 
+myID = 8 startPos = 5000 endPos = 5625 
+myID = 6 startPos = 3750 endPos = 4375 
+myID = 3 startPos = 1875 endPos = 2500 
+myID = 9 startPos = 5625 endPos = 6250 
 myID = 10 startPos = 6250 endPos = 6875 
 myID = 14 startPos = 8750 endPos = 9375 
-myID = 15 startPos = 9375 endPos = 10000 
+myID = 5 startPos = 3125 endPos = 3750 
+myID = 13 startPos = 8125 endPos = 8750 
+myID = 11 startPos = 6875 endPos = 7500 
+myID = 4 startPos = 2500 endPos = 3125 
 0: 94.1
 1: 91.9
 2: 92.3
@@ -10042,11 +10042,11 @@ myID = 15 startPos = 9375 endPos = 10000
 9998: 91.8
 9999: 93.1
 Tasks: 16
-Total Time: 62.382000ms
-DATA, 16,62.382000
-size = 16, Node: elf75, vMem 151356 KB, pMem 20324 KB
+Total Time: 73.493000ms
+DATA, 16,73.493000ms
+size = 16, Node: elf79, vMem 151356 KB, pMem 20324 KB
 Main: program completed. Exiting.
 
-real	0m0.066s
-user	0m0.159s
-sys	0m0.013s
+real	0m0.214s
+user	0m0.200s
+sys	0m0.019s

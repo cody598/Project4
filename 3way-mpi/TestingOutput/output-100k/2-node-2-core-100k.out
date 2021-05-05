@@ -28,11 +28,11 @@ MPI
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   elf78
-  Local device: mlx4_1
+  Local host:   elf31
+  Local device: mlx4_0
 --------------------------------------------------------------------------
-DEBUG: starting time on elf78
-Max lines reached!
+[elf26:46200] [[58786,0],0] ORTE_ERROR_LOG: Data unpack would read past end of buffer in file util/show_help.c at line 501
+DEBUG: starting time on elf26
 0: 94.1
 1: 91.9
 2: 92.3
@@ -100033,33 +100033,8 @@ Max lines reached!
 99997: 91.0
 99998: 96.3
 99999: 93.8
-Tasks: 4
- Total Elapsed Time: 9715.432000ms
-DATA, 4,9715.432000
-size = 1, Node: elf78, vMem 242304 KB, pMem 19512 KB
-Main: program completed. Exiting.
-[elf78:36932:0:36932] Caught signal 11 (Segmentation fault: address not mapped to object at address 0x7faf42bb26d8)
-==== backtrace (tid:  36932) ====
- 0 0x0000000000021783 ucs_debug_print_backtrace()  /tmp/easybuild/UCX/1.8.0/GCCcore-9.3.0/ucx-1.8.0/src/ucs/debug/debug.c:653
- 1 0x0000000000035d3f ompi_comm_finalize()  ???:0
- 2 0x00000000000560b5 ompi_mpi_finalize()  ???:0
- 3 0x0000000000401491 main()  ???:0
- 4 0x0000000000022555 __libc_start_main()  ???:0
- 5 0x0000000000400d49 _start()  ???:0
-=================================
-[elf78:36932] *** Process received signal ***
-[elf78:36932] Signal: Segmentation fault (11)
-[elf78:36932] Signal code:  (-6)
-[elf78:36932] Failing at address: 0xf2b00009044
-[elf78:36932] [ 0] /lib64/libpthread.so.0(+0xf630)[0x7faf88c0e630]
-[elf78:36932] [ 1] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_comm_finalize+0xcf)[0x7faf89ef4d3f]
-[elf78:36932] [ 2] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_mpi_finalize+0x575)[0x7faf89f150b5]
-[elf78:36932] [ 3] /homes/cody598/cis520/Project4/3way-mpi/mpi-100k[0x401491]
-[elf78:36932] [ 4] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7faf89a19555]
-[elf78:36932] [ 5] /homes/cody598/cis520/Project4/3way-mpi/mpi-100k[0x400d49]
-[elf78:36932] *** End of error message ***
-/var/spool/slurm/d/job594458/slurm_script: line 11: 36932 Segmentation fault      (core dumped) /homes/cody598/cis520/Project4/3way-mpi/mpi-100k
-
-real	0m10.185s
-user	0m1.010s
-sys	0m0.223s
+size = 4 rank = 0, Node: elf26, vMem 359532 KB, pMem 119460 KB
+Tasks: 4, Elapsed Time: 1404.487000ms
+DATA, 4,1404.487000ms
+[elf26:46200] 2 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[elf26:46200] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages

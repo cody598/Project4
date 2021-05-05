@@ -1,5 +1,5 @@
-16-core-10k.out:DATA, 16,62.382000
-1-core-10k.out:DATA, 1,1511.146000
-2-core-10k.out:DATA, 2,73.974000
-4-core-10k.out:DATA, 4,125.798000
-8-core-10k.out:DATA, 8,57.388000
+16-core-10k.out:DATA, 16,73.493000ms
+1-core-10k.out:DATA, 1,99.020000ms
+2-core-10k.out:DATA, 2,79.334000ms
+4-core-10k.out:DATA, 4,66.711000ms
+8-core-10k.out:DATA, 8,59.768000ms

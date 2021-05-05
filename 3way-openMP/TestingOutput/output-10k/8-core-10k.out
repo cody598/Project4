@@ -25,14 +25,14 @@ The following have been reloaded with a version change:
  10) zlib/1.2.11-GCCcore-10.2.0 => zlib/1.2.11-GCCcore-9.3.0
 
 openMP
-myID = 0 startPos = 0 endPos = 1250 
 myID = 7 startPos = 8750 endPos = 10000 
 myID = 5 startPos = 6250 endPos = 7500 
+myID = 0 startPos = 0 endPos = 1250 
 myID = 2 startPos = 2500 endPos = 3750 
-myID = 4 startPos = 5000 endPos = 6250 
-myID = 3 startPos = 3750 endPos = 5000 
-myID = 6 startPos = 7500 endPos = 8750 
 myID = 1 startPos = 1250 endPos = 2500 
+myID = 3 startPos = 3750 endPos = 5000 
+myID = 4 startPos = 5000 endPos = 6250 
+myID = 6 startPos = 7500 endPos = 8750 
 0: 94.1
 1: 91.9
 2: 92.3
@@ -10034,11 +10034,11 @@ myID = 1 startPos = 1250 endPos = 2500
 9998: 91.8
 9999: 93.1
 Tasks: 8
-Total Time: 57.388000ms
-DATA, 8,57.388000
-size = 8, Node: elf76, vMem 85788 KB, pMem 20324 KB
+Total Time: 59.768000ms
+DATA, 8,59.768000ms
+size = 8, Node: elf75, vMem 85788 KB, pMem 20328 KB
 Main: program completed. Exiting.
 
-real	0m0.061s
-user	0m0.102s
-sys	0m0.014s
+real	0m0.062s
+user	0m0.104s
+sys	0m0.013s

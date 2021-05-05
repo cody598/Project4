@@ -100027,11 +100027,11 @@ myID = 0 startPos = 0 endPos = 100000
 99998: 96.3
 99999: 93.8
 Tasks: 1
-Total Time: 43402.423000ms
-DATA, 1,43402.423000
-size = 1, Node: elf76, vMem 204904 KB, pMem 196928 KB
+Total Time: 972.485000ms
+DATA, 1,972.485000ms
+size = 1, Node: elf79, vMem 204904 KB, pMem 196928 KB
 Main: program completed. Exiting.
 
-real	0m43.442s
-user	0m1.008s
-sys	0m0.131s
+real	0m0.975s
+user	0m0.878s
+sys	0m0.097s

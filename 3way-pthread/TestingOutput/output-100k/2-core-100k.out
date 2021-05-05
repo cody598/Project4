@@ -1,31 +1,12 @@
-
-The following have been reloaded with a version change:
-  1) GCCcore/9.3.0 => GCCcore/10.2.0
-  2) OpenMPI/4.0.3-GCC-9.3.0 => OpenMPI/4.0.5-iccifort-2020.4.304
-  3) UCX/1.8.0-GCCcore-9.3.0 => UCX/1.9.0-GCCcore-10.2.0
-  4) XZ/5.2.5-GCCcore-9.3.0 => XZ/5.2.5-GCCcore-10.2.0
-  5) binutils/2.34-GCCcore-9.3.0 => binutils/2.35-GCCcore-10.2.0
-  6) hwloc/2.2.0-GCCcore-9.3.0 => hwloc/2.2.0-GCCcore-10.2.0
-  7) libpciaccess/0.16-GCCcore-9.3.0 => libpciaccess/0.16-GCCcore-10.2.0
-  8) libxml2/2.9.10-GCCcore-9.3.0 => libxml2/2.9.10-GCCcore-10.2.0
-  9) numactl/2.0.13-GCCcore-9.3.0 => numactl/2.0.13-GCCcore-10.2.0
- 10) zlib/1.2.11-GCCcore-9.3.0 => zlib/1.2.11-GCCcore-10.2.0
+Lmod has detected the following error: These module(s) or extension(s) exist
+but cannot be loaded as requested: "binutils/2.34-GCCcore-9.3.0"
+   Try: "module spider binutils/2.34-GCCcore-9.3.0" to see how to load the
+module(s).
 
 
-The following have been reloaded with a version change:
-  1) GCCcore/10.2.0 => GCCcore/9.3.0
-  2) OpenMPI/4.0.5-iccifort-2020.4.304 => OpenMPI/4.0.3-GCC-9.3.0
-  3) UCX/1.9.0-GCCcore-10.2.0 => UCX/1.8.0-GCCcore-9.3.0
-  4) XZ/5.2.5-GCCcore-10.2.0 => XZ/5.2.5-GCCcore-9.3.0
-  5) binutils/2.35-GCCcore-10.2.0 => binutils/2.34-GCCcore-9.3.0
-  6) hwloc/2.2.0-GCCcore-10.2.0 => hwloc/2.2.0-GCCcore-9.3.0
-  7) libpciaccess/0.16-GCCcore-10.2.0 => libpciaccess/0.16-GCCcore-9.3.0
-  8) libxml2/2.9.10-GCCcore-10.2.0 => libxml2/2.9.10-GCCcore-9.3.0
-  9) numactl/2.0.13-GCCcore-10.2.0 => numactl/2.0.13-GCCcore-9.3.0
- 10) zlib/1.2.11-GCCcore-10.2.0 => zlib/1.2.11-GCCcore-9.3.0
 
 pThread
-DEBUG: starting time on elf75
+DEBUG: starting time on elf79
 myID = 0 startPos = 0 endPos = 50000 
 myID = 1 startPos = 50000 endPos = 100000 
 0: 94.1
@@ -100029,11 +100010,11 @@ myID = 1 startPos = 50000 endPos = 100000
 99998: 96.3
 99999: 93.8
 Tasks: 2
- Total Elapsed Time: 282.213000ms
-DATA, 2,282.213000
-size = 2, Node: elf75, vMem 284376 KB, pMem 196552 KB
+ Total Elapsed Time: 271.228000ms
+DATA, 2,271.228000ms
+size = 2, Node: elf79, vMem 284376 KB, pMem 196552 KB
 Main: program completed. Exiting.
 
-real	0m0.758s
-user	0m0.917s
-sys	0m0.078s
+real	0m0.730s
+user	0m0.861s
+sys	0m0.096s

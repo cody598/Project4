@@ -28,11 +28,10 @@ MPI
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   elf75
+  Local host:   elf61
   Local device: mlx4_0
 --------------------------------------------------------------------------
-DEBUG: starting time on elf75
-Max lines reached!
+DEBUG: starting time on elf61
 0: 94.1
 1: 91.9
 2: 92.3
@@ -10033,33 +10032,10 @@ Max lines reached!
 9997: 89.2
 9998: 91.8
 9999: 93.1
-Tasks: 4
- Total Elapsed Time: 96.177000ms
-DATA, 4,96.177000
-size = 1, Node: elf75, vMem 241588 KB, pMem 14708 KB
-Main: program completed. Exiting.
-[elf75:18685:0:18685] Caught signal 11 (Segmentation fault: address not mapped to object at address 0x7f6042b686e5)
-==== backtrace (tid:  18685) ====
- 0 0x0000000000021783 ucs_debug_print_backtrace()  /tmp/easybuild/UCX/1.8.0/GCCcore-9.3.0/ucx-1.8.0/src/ucs/debug/debug.c:653
- 1 0x0000000000035d3f ompi_comm_finalize()  ???:0
- 2 0x00000000000560b5 ompi_mpi_finalize()  ???:0
- 3 0x0000000000401491 main()  ???:0
- 4 0x0000000000022555 __libc_start_main()  ???:0
- 5 0x0000000000400d49 _start()  ???:0
-=================================
-[elf75:18685] *** Process received signal ***
-[elf75:18685] Signal: Segmentation fault (11)
-[elf75:18685] Signal code:  (-6)
-[elf75:18685] Failing at address: 0xf2b000048fd
-[elf75:18685] [ 0] /lib64/libpthread.so.0(+0xf630)[0x7f600ff95630]
-[elf75:18685] [ 1] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_comm_finalize+0xcf)[0x7f601127bd3f]
-[elf75:18685] [ 2] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_mpi_finalize+0x575)[0x7f601129c0b5]
-[elf75:18685] [ 3] /homes/cody598/cis520/Project4/3way-mpi/mpi-10k[0x401491]
-[elf75:18685] [ 4] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7f6010da0555]
-[elf75:18685] [ 5] /homes/cody598/cis520/Project4/3way-mpi/mpi-10k[0x400d49]
-[elf75:18685] *** End of error message ***
-/var/spool/slurm/d/job594449/slurm_script: line 11: 18685 Segmentation fault      /homes/cody598/cis520/Project4/3way-mpi/mpi-10k
+size = 1 rank = 0, Node: elf61, vMem 241588 KB, pMem 14716 KB
+Tasks: 4, Elapsed Time: 140.638000ms
+DATA, 4,140.638000ms
 
-real	0m0.587s
-user	0m0.121s
-sys	0m0.076s
+real	0m0.522s
+user	0m0.153s
+sys	0m0.046s

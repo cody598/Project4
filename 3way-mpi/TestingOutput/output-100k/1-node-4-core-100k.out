@@ -28,11 +28,12 @@ MPI
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   elf75
+  Local host:   elf44
   Local device: mlx4_0
 --------------------------------------------------------------------------
-DEBUG: starting time on elf75
-Max lines reached!
+DEBUG: starting time on elf44
+[elf44:11546] 3 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[elf44:11546] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
 0: 94.1
 1: 91.9
 2: 92.3
@@ -100033,33 +100034,6 @@ Max lines reached!
 99997: 91.0
 99998: 96.3
 99999: 93.8
-Tasks: 4
- Total Elapsed Time: 950.728000ms
-DATA, 4,950.728000
-size = 1, Node: elf75, vMem 242292 KB, pMem 15468 KB
-Main: program completed. Exiting.
-[elf75:18687:0:18687] Caught signal 11 (Segmentation fault: address not mapped to object at address 0x7f3c42bb26d8)
-==== backtrace (tid:  18687) ====
- 0 0x0000000000021783 ucs_debug_print_backtrace()  /tmp/easybuild/UCX/1.8.0/GCCcore-9.3.0/ucx-1.8.0/src/ucs/debug/debug.c:653
- 1 0x0000000000035d3f ompi_comm_finalize()  ???:0
- 2 0x00000000000560b5 ompi_mpi_finalize()  ???:0
- 3 0x0000000000401491 main()  ???:0
- 4 0x0000000000022555 __libc_start_main()  ???:0
- 5 0x0000000000400d49 _start()  ???:0
-=================================
-[elf75:18687] *** Process received signal ***
-[elf75:18687] Signal: Segmentation fault (11)
-[elf75:18687] Signal code:  (-6)
-[elf75:18687] Failing at address: 0xf2b000048ff
-[elf75:18687] [ 0] /lib64/libpthread.so.0(+0xf630)[0x7f3cf953d630]
-[elf75:18687] [ 1] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_comm_finalize+0xcf)[0x7f3cfa823d3f]
-[elf75:18687] [ 2] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_mpi_finalize+0x575)[0x7f3cfa8440b5]
-[elf75:18687] [ 3] /homes/cody598/cis520/Project4/3way-mpi/mpi-100k[0x401491]
-[elf75:18687] [ 4] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7f3cfa348555]
-[elf75:18687] [ 5] /homes/cody598/cis520/Project4/3way-mpi/mpi-100k[0x400d49]
-[elf75:18687] *** End of error message ***
-/var/spool/slurm/d/job594448/slurm_script: line 11: 18687 Segmentation fault      /homes/cody598/cis520/Project4/3way-mpi/mpi-100k
-
-real	0m1.367s
-user	0m0.945s
-sys	0m0.108s
+size = 4 rank = 0, Node: elf44, vMem 248064 KB, pMem 15200 KB
+Tasks: 4, Elapsed Time: 32754.771000ms
+DATA, 4,32754.771000ms

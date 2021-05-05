@@ -28,11 +28,10 @@ MPI
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   elf79
+  Local host:   elf06
   Local device: mlx4_0
 --------------------------------------------------------------------------
-DEBUG: starting time on elf79
-Max lines reached!
+DEBUG: starting time on elf06
 0: 94.1
 1: 91.9
 2: 92.3
@@ -100033,33 +100032,8 @@ Max lines reached!
 99997: 91.0
 99998: 96.3
 99999: 93.8
-Tasks: 8
- Total Elapsed Time: 6047.633000ms
-DATA, 8,6047.633000
-size = 1, Node: elf79, vMem 242308 KB, pMem 15744 KB
-Main: program completed. Exiting.
-[elf79:12688:0:12688] Caught signal 11 (Segmentation fault: address not mapped to object at address 0x7f3d42bb26d8)
-==== backtrace (tid:  12688) ====
- 0 0x0000000000021783 ucs_debug_print_backtrace()  /tmp/easybuild/UCX/1.8.0/GCCcore-9.3.0/ucx-1.8.0/src/ucs/debug/debug.c:653
- 1 0x0000000000035d3f ompi_comm_finalize()  ???:0
- 2 0x00000000000560b5 ompi_mpi_finalize()  ???:0
- 3 0x0000000000401491 main()  ???:0
- 4 0x0000000000022555 __libc_start_main()  ???:0
- 5 0x0000000000400d49 _start()  ???:0
-=================================
-[elf79:12688] *** Process received signal ***
-[elf79:12688] Signal: Segmentation fault (11)
-[elf79:12688] Signal code:  (-6)
-[elf79:12688] Failing at address: 0xf2b00003190
-[elf79:12688] [ 0] /lib64/libpthread.so.0(+0xf630)[0x7f3da2f88630]
-[elf79:12688] [ 1] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_comm_finalize+0xcf)[0x7f3da426ed3f]
-[elf79:12688] [ 2] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_mpi_finalize+0x575)[0x7f3da428f0b5]
-[elf79:12688] [ 3] /homes/cody598/cis520/Project4/3way-mpi/mpi-100k[0x401491]
-[elf79:12688] [ 4] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7f3da3d93555]
-[elf79:12688] [ 5] /homes/cody598/cis520/Project4/3way-mpi/mpi-100k[0x400d49]
-[elf79:12688] *** End of error message ***
-/var/spool/slurm/d/job594453/slurm_script: line 11: 12688 Segmentation fault      /homes/cody598/cis520/Project4/3way-mpi/mpi-100k
-
-real	0m7.385s
-user	0m1.000s
-sys	0m0.113s
+size = 8 rank = 0, Node: elf06, vMem 249188 KB, pMem 15236 KB
+Tasks: 8, Elapsed Time: 1096.206000ms
+DATA, 8,1096.206000ms
+[elf06:26158] 7 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[elf06:26158] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages

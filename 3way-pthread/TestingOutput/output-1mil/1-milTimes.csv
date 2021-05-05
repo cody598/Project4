@@ -1,5 +1,5 @@
-16-core-1mil.out:DATA, 16,925.218000
-1-core-1mil.out:DATA, 1,4844.594000
-2-core-1mil.out:DATA, 2,92540.207000
-4-core-1mil.out:DATA, 4,1675.658000
-8-core-1mil.out:DATA, 8,1008.740000
+16-core-1mil.out:DATA, 16,836.523000ms
+1-core-1mil.out:DATA, 1,4939.188000ms
+2-core-1mil.out:DATA, 2,103724.899000ms
+4-core-1mil.out:DATA, 4,1660.007000ms
+8-core-1mil.out:DATA, 8,1009.289000ms

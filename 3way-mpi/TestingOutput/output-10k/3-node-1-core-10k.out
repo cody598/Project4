@@ -25,9 +25,8 @@ The following have been reloaded with a version change:
  10) zlib/1.2.11-GCCcore-10.2.0 => zlib/1.2.11-GCCcore-9.3.0
 
 MPI
-[elf75:20527] [[40886,0],0] ORTE_ERROR_LOG: Out of resource in file util/show_help.c at line 501
-DEBUG: starting time on elf75
-Max lines reached!
+[elf77:07516] [[21554,0],0] ORTE_ERROR_LOG: Data unpack would read past end of buffer in file util/show_help.c at line 501
+DEBUG: starting time on elf77
 0: 94.1
 1: 91.9
 2: 92.3
@@ -10028,33 +10027,10 @@ Max lines reached!
 9997: 89.2
 9998: 91.8
 9999: 93.1
-Tasks: 3
- Total Elapsed Time: 96.521000ms
-DATA, 3,96.521000
-size = 1, Node: elf75, vMem 241580 KB, pMem 14632 KB
-Main: program completed. Exiting.
-[elf75:20526:0:20526] Caught signal 11 (Segmentation fault: address not mapped to object at address 0x7f0142b686e5)
-==== backtrace (tid:  20526) ====
- 0 0x0000000000021783 ucs_debug_print_backtrace()  /tmp/easybuild/UCX/1.8.0/GCCcore-9.3.0/ucx-1.8.0/src/ucs/debug/debug.c:653
- 1 0x0000000000035d3f ompi_comm_finalize()  ???:0
- 2 0x00000000000560b5 ompi_mpi_finalize()  ???:0
- 3 0x0000000000401491 main()  ???:0
- 4 0x0000000000022555 __libc_start_main()  ???:0
- 5 0x0000000000400d49 _start()  ???:0
-=================================
-[elf75:20526] *** Process received signal ***
-[elf75:20526] Signal: Segmentation fault (11)
-[elf75:20526] Signal code:  (-6)
-[elf75:20526] Failing at address: 0xf2b0000502e
-[elf75:20526] [ 0] /lib64/libpthread.so.0(+0xf630)[0x7f01b2258630]
-[elf75:20526] [ 1] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_comm_finalize+0xcf)[0x7f01b353ed3f]
-[elf75:20526] [ 2] /opt/software/software/OpenMPI/4.0.3-GCC-9.3.0/lib/libmpi.so.40(ompi_mpi_finalize+0x575)[0x7f01b355f0b5]
-[elf75:20526] [ 3] /homes/cody598/cis520/Project4/3way-mpi/mpi-10k[0x401491]
-[elf75:20526] [ 4] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7f01b3063555]
-[elf75:20526] [ 5] /homes/cody598/cis520/Project4/3way-mpi/mpi-10k[0x400d49]
-[elf75:20526] *** End of error message ***
-/var/spool/slurm/d/job594469/slurm_script: line 11: 20526 Segmentation fault      /homes/cody598/cis520/Project4/3way-mpi/mpi-10k
+size = 1 rank = 0, Node: elf77, vMem 241580 KB, pMem 18776 KB
+Tasks: 3, Elapsed Time: 331.033000ms
+DATA, 3,331.033000ms
 
-real	0m0.494s
-user	0m0.133s
-sys	0m0.045s
+real	0m0.544s
+user	0m0.152s
+sys	0m0.048s

@@ -11,16 +11,20 @@
 #include <stdint.h>
 #include "sys/types.h"
 #include "sys/sysinfo.h"
+#include <math.h>
 
-#define MAX_LINE_LENGTH 2200
-#define MAX_LINES 100000
+#define MAXIMUM_TASKS 32
+#define STRING_SIZE 2001
+#define ARRAY_SIZE 100000
 
+#define PRINTABLE_CHAR_MIN 32
+#define PRINTABLE_CHAR_MAX 126
 
 /* Global variables. */
-int NUM_THREADS = 4;
-float line_average[MAX_LINES];
-float local_average[MAX_LINES];
-
+float NUM_THREADS;
+unsigned int thread_locations[MAXIMUM_TASKS];
+float line_averages[ARRAY_SIZE];
+float local_average[ARRAY_SIZE];
 
 typedef struct {
 	uint32_t virtualMem;
@@ -54,12 +58,14 @@ void GetProcessMemory(processMem_t* processMem) {
 	fclose(file);
 }
 
-/* Find average char value of a passed in line. */
-float find_avg(char* line, int nchars) {
+/* Find average char value of a line. */
+float find_line_average(char* line, int nchars) 
+{
    int i, j;
    float sum = 0;
 
-   for ( i = 0; i < nchars; i++ ) {
+   for ( i = 0; i < nchars; i++ ) 
+   {
       sum += ((int) line[i]);
    }
 
@@ -69,100 +75,48 @@ float find_avg(char* line, int nchars) {
 	return 0.0;
 }
 
-/* Based on rank the file is partitioned. Once partitioned, averages for each line will be found. */
-void read_line_avg(int rank, FILE * fd)
+/* Computes the local average array. Work-load distributed equally.*/
+void find_avg(int rank, FILE * fp)
 {
-	char tempBuffer[MAX_LINE_LENGTH];
-	int fileSize;
-	int	chunks;
-	int start;
-	int currentLine = 0;
+	char tempBuffer[STRING_SIZE];
+	int currentLine = rank * (ARRAY_SIZE/NUM_THREADS);
 
-	/* Get file size and set the chunks from the total file size*/
-	fseek(fd, 0, SEEK_END);
-	fileSize = ftell(fd);
-	chunks = fileSize/NUM_THREADS;
-
-	/* Based on rank, set the start position. */
-	if(rank == 0)
-		fseek(fd, 0, SEEK_SET);
-
-	/* Discard line the partition is not placed correctly. */
-	if(rank > 0)
+	fseek(fp, thread_locations[rank], SEEK_SET);
+	
+	/* While not at EOF and not beyond assigned section ... */
+	while(currentLine < (rank+1) * (ARRAY_SIZE/NUM_THREADS)
+		&& fscanf(fp, "%[^\n]\n", tempBuffer) != EOF)
 	{
-		fseek(fd, rank*chunks-1, SEEK_SET);
-		fscanf(fd, "%[^\n]\n", tempBuffer);
-		if(strcmp(tempBuffer,"") == 0)
-		{
-			fseek(fd, rank*chunks, SEEK_SET);
-		}
-	}
-
-	/* Find current line number. */
-	start = ftell(fd);
-	fseek(fd, 0, SEEK_SET);
-	while(ftell(fd) < start)
-	{
-		fscanf(fd, "%[^\n]\n", tempBuffer);
-		currentLine++;
-	}
-
-	/* Sets file start position */
-	fseek(fd, start, SEEK_SET);
-		
-	/* End of File not reached and new block has yet to be assigned. */
-	while(ftell(fd) <= (rank+1)*chunks
-		&& fscanf(fd, "%[^\n]\n", tempBuffer) != EOF)
-	{
-		/* Newline char verification.  */
-		if(strcmp(tempBuffer,"") == 0)
-		{
-			fseek(fd, (rank*chunks)+1, SEEK_SET);
-		}
-
-		/* Find average of the temporary buffer. */
-		else
-		{
+			/* Find and save average of line of char locally */
 			int lineLength = strlen(tempBuffer);
-
-			if(currentLine > MAX_LINES)
-			{				
-				printf("Max lines reached!\n");
-				break;
-			}
-
-			/* Save line average into local array. */
-			local_average[currentLine] = find_avg(tempBuffer, lineLength);
+			local_average[currentLine] = find_line_average(tempBuffer, lineLength);
 			currentLine++;
-		}
 	}
 }
 
+
 /* Prints the results. */
-void PrintLineAverages()
+void printResults()
 {
 	int i;
-	for(i = 0; i < MAX_LINES; i++)
+	for(i = 0; i<ARRAY_SIZE; i++)
 	{
 		/* Print mean. */
-		printf("%d: %.1f\n", i, line_average[i]);
+		printf("%d: %.1f\n", i, line_averages[i]);
 	}
 }
 
 main(int argc, char *argv[])
 {
+	/* Timekeeping variables. */
+	struct timeval t1, t2;
+	double timeElapsedTotal;
+	
 	int i, rc;
 	int rank, numtasks;
-		
-	/* Timekeeping variables. */
-	struct timeval t1, t2, t3;
-	double overalltime;
-	double timeElapsedInit, timeElapsedProcess, timeElapsedPrint, timeElapsedTotal;
-	
-	FILE * fd;
+	FILE * fp;
 	MPI_Status Status;
 	processMem_t myMem; 
-
 
 	/* MPI Setup. */
 	rc = MPI_Init(&argc,&argv);
@@ -174,7 +128,7 @@ main(int argc, char *argv[])
     MPI_Comm_size(MPI_COMM_WORLD,&numtasks);
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
-    /* Start performance metrics. */
+    /* Start performance */
     if(rank == 0)
     {
 		gettimeofday(&t1, NULL);
@@ -183,42 +137,62 @@ main(int argc, char *argv[])
  
 	NUM_THREADS = numtasks;
 
-	/* Get file. */
-	fd = fopen("/homes/dan/625/wiki_dump.txt","r");
-	if(fd == NULL)
+	fp = fopen("/homes/dan/625/wiki_dump.txt","r");
+	if(fp == NULL)
 	{
 		printf("file not found\n");
 		exit(-1);
 	}
-	
-	/* Gets the line averages of the read-in-file */
-	read_line_avg(rank, fd);
-	fclose(fd);
-	
-	gettimeofday(&t2, NULL);
 
-	/* Merge local arrays into the global array. */
-	MPI_Reduce(local_average, line_average, MAX_LINES, MPI_FLOAT, MPI_SUM, 0, MPI_COMM_WORLD);
-
-	/* Print once complete. */
+	/* Distributes workload */
 	if(rank == 0)
 	{
-		PrintLineAverages();
-		gettimeofday(&t3, NULL);
+		char tempBuffer[STRING_SIZE];
+		i = 1;
+		int currentLine = 0;
 
-		//total program time
-		timeElapsedTotal = (t3.tv_sec - t1.tv_sec) * 1000.0;  //Time converted to milliseconds
-		timeElapsedTotal += (t3.tv_usec - t1.tv_usec) / 1000.0;
-		
-		/* Important Data Retreival and Setup. */	
-		printf("Tasks: %s\n Total Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
-		printf("DATA, %s,%f\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
+		/* Set starting position. */
+		fseek(fp, 0, SEEK_SET);
+		thread_locations[0] = ftell(fp);
+		int prevPos = ftell(fp);
+
+		/* Count lines and save their positions in file in the array. */
+		while(currentLine < ARRAY_SIZE && fscanf(fp, "%[^\n]\n", tempBuffer) != EOF)
+		{			
+			if(currentLine == i * ARRAY_SIZE/NUM_THREADS)
+			{
+				thread_locations[i] = prevPos;
+				i++;
+			}
+			prevPos = ftell(fp);
+			currentLine++;
+		}
+
+		fseek(fp, 0, SEEK_SET);	
+	}
+	MPI_Bcast(thread_locations, NUM_THREADS+1, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
+
+	find_avg(rank, fp);
+	
+	fclose(fp);
+
+	/* Merge local to global arrays */
+	MPI_Reduce(local_average, line_averages, ARRAY_SIZE, MPI_FLOAT, MPI_SUM, 0, MPI_COMM_WORLD);
+
+	/* Print results and record important data */
+	if(rank == 0)
+	{
+		printResults();
+		gettimeofday(&t2, NULL);
+		timeElapsedTotal = (t2.tv_sec - t1.tv_sec) * 1000.0; // Convert to ms
+		timeElapsedTotal += (t2.tv_usec - t1.tv_usec) / 1000.0; // Convert to ms
+			/* Performance metrics. */	
 		GetProcessMemory(&myMem);
-		printf("size = %d, Node: %s, vMem %u KB, pMem %u KB\n", NUM_THREADS, getenv("HOSTNAME"), myMem.virtualMem, myMem.physicalMem);
-		printf("Main: program completed. Exiting.\n");
+		printf("size = %d rank = %d, Node: %s, vMem %u KB, pMem %u KB\n", numtasks, rank, getenv("HOSTNAME"), myMem.virtualMem, myMem.physicalMem);
+		printf("Tasks: %s, Elapsed Time: %fms\n",  getenv("SLURM_NTASKS"),  timeElapsedTotal);
+		printf("DATA, %s,%fms\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
 	}
 
 	MPI_Finalize();
-
 	return 0;
 }

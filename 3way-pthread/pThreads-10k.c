@@ -168,7 +168,7 @@ main() {
 	pthread_mutex_destroy(&mutexsum);
 	
 	printf("Tasks: %s\n Total Elapsed Time: %fms\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
-	printf("DATA, %s,%f\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
+	printf("DATA, %s,%fms\n", getenv("SLURM_NTASKS"), timeElapsedTotal);
     GetProcessMemory(&memory);
 	
 	printf("size = %d, Node: %s, vMem %u KB, pMem %u KB\n", NUM_THREADS, getenv("HOSTNAME"), memory.virtualMem, memory.physicalMem);
